@@ -66,6 +66,21 @@ app.post('/api/tasks', (request, response) => {
     response.json(tasks)
 })
 
+app.put('/api/tasks/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const body = request.body
+    const task = tasks.find(task => task.id === id)
+
+    if (task) {
+        task.title = body.title
+        task.completed = body.completed
+        response.json(task)
+    } else {
+        return response.status(404).json({ message: "Task does not exist" })
+    }
+    console.log(id, body, task)
+})
+
 app.delete('/api/tasks/:id', (request, response) => {
     const id = Number(request.params.id)
     const index = tasks.findIndex(task => task.id === id)
